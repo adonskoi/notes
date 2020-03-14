@@ -41,7 +41,7 @@
         </div>
         <div class="col-sm-9">
           <h3 id="name"></h3>
-          <p id="content" contenteditable="true"></p>
+          <div id="content" contenteditable="true"></div>
           <button type="button" id="save" class="btn btn-primary">Save</button>
         </div>
       </div>
@@ -85,7 +85,7 @@
 
         $("#tree").on("nodeSelected", function(event, data) {
           console.log(data);
-          $("#content").text(data.content);
+          $("#content").html(data.content);
           $("#name").text(data.text);
         });
       }
@@ -94,7 +94,8 @@
       });
 
       document.getElementById("save").addEventListener("click", e => {
-        var content = document.getElementById("content").innerHTML;
+        // var content = document.getElementById("content").innerHTML;
+        var content = $("#content").html();
         var node = $("#tree").treeview("getSelected", {})[0];
         node.content = content;
         console.log(node);
@@ -213,7 +214,7 @@
         element => {
           element.addEventListener("click", e => {
             var node = $("#tree").treeview("getSelected", {})[0];
-            var content = document.getElementById("content").innerHTML;
+            var content = $("#content").html();
             let new_page_name = prompt(
               "Please enter new page name:",
               node.text
