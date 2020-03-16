@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, jsonify
-from tinydb import TinyDB, Query
+from tinydb import Query
+from notes import db
+
 
 bp = Blueprint('views', __name__)
-db = TinyDB('instance/db.json')
 
 @bp.route('/')
 def home():
