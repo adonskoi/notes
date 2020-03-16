@@ -8,7 +8,6 @@ def create_app(config_filename=None):
     if config_filename:
         app.config.from_pyfile(config_filename)
     global db
-    print(app.config.get('DB'))
     db = TinyDB(app.config.get('DB'))
     register_blueprints(app)
     create_simple_page()

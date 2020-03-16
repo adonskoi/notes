@@ -56,6 +56,8 @@ coverage.xml
 # Translations
 *.mo
 *.pot
+.DS_Store
+.vscode/
 
 # Django stuff:
 *.log
@@ -64,9 +66,8 @@ db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
-instance/
 .webassets-cache
-
+db_test.json
 # Scrapy stuff:
 .scrapy
 
