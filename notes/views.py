@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, jsonify
 from tinydb import TinyDB, Query
 
 bp = Blueprint('views', __name__)
-db = TinyDB('db.json')
+db = TinyDB('instance/db.json')
 
 @bp.route('/')
 def home():
@@ -18,16 +18,16 @@ def pages_get():
 def pages_post():
     pages = db.table('pages')
     pid = request.json['pid']
-    _id = pages.insert({"text": request.json['page_name'], "pid": pid, "content": "start typing here"})
+    _id = pages.insert({"page_name": request.json['page_name'], "pid": pid, "content": "start typing here"})
     pages.update({"_id": _id}, doc_ids=[_id])
     return jsonify({"success": True, "_id": _id})
-
+ 
 
 @bp.route('/pages/<path:_id>', methods=("UPDATE",))
 def pages_update(_id: str):
     _id = int(_id)
     pages = db.table('pages')
-    pages.update({"text": request.json['page_name'], "content": request.json['content']}, doc_ids=[_id])
+    pages.update({"page_name": request.json['page_name'], "content": request.json['content']}, doc_ids=[_id])
     return jsonify({"success": True})
 
 @bp.route('/pages/<path:_id>', methods=("DELETE",))

@@ -1,11 +1,28 @@
 from flask import Flask
-from . import views
+from .views import db
 
-def create_app(test_config=None):
-    app = Flask(__name__)
 
+def create_app(config_filename=None):
+
+    app = Flask(__name__, instance_relative_config=True)
+    if config_filename:
+        app.config.from_pyfile(config_filename)
+    register_blueprints(app)
+    create_simple_page()
+    return app
+
+
+def register_blueprints(app):    
+    from . import views
     app.register_blueprint(views.bp)
 
-   
 
-    return app
+def create_simple_page():
+    pages = db.table('pages')
+    pages_all = pages.all()
+    if len(pages_all) == 0:
+        _id = pages.insert({"page_name": "sample page name", "pid": 0, "content": "start typing here"})
+        pages.update({"_id": _id}, doc_ids=[_id])
+    else:
+        pass
+    

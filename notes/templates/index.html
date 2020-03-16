@@ -70,6 +70,10 @@
       function getTree() {
         var tree = [];
         $.get("/pages", function(data) {
+          data.forEach(el => {
+            el.text = el.page_name;
+          });
+          console.log(data);
           tree = list_to_tree(data);
         }).fail(function() {
           alert("error to get pages");
@@ -84,7 +88,6 @@
         });
 
         $("#tree").on("nodeSelected", function(event, data) {
-          console.log(data);
           $("#content").html(data.content);
           $("#name").text(data.text);
         });
@@ -98,7 +101,6 @@
         var content = $("#content").html();
         var node = $("#tree").treeview("getSelected", {})[0];
         node.content = content;
-        console.log(node);
         $.ajax(
           `/pages/${node._id}`,
           {
